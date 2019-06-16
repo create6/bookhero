@@ -31,6 +31,7 @@ class SearchBooksView(View):
 
         #3返回响应
         return http.JsonResponse(serializer.data,safe=False)
+        
     #创建单个书籍
     def post(self,request):
         #1获取参数

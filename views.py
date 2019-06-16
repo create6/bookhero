@@ -62,3 +62,55 @@ heros=HeroInfo.objects.all()
 serializer=HeroInfoSerializer(instance=heros,many=True)
 #3 转换数据
 print(serializer.data)
+
+
+
+'''
+5,反序列化，书籍对象，反json
+参数
+'''
+from serializers import BookInfoSerializer
+#1,准备数据
+book_dict={
+    "btitle":"金瓶v2",
+    "bpub_date":"1990-1-1",
+    "bread":200,
+    "bcomment":150
+}
+
+#2,创建序列化器，校验
+serializer=BookInfoSerializer(data=book_dict)
+
+#3,校验
+serializer.is_valid(raise_exception=True)
+
+
+
+
+'''
+6,反序列化，书籍对象，反json
+    create 保存
+'''
+from serializers import BookInfoSerializer
+#1,准备数据
+book_dict={
+    "btitle":"金瓶v2",
+    "bpub_date":"1990-1-1",
+    "bread":200,
+    "bcomment":150
+}
+
+#2,创建序列化器，校验
+serializer=BookInfoSerializer(data=book_dict)
+
+#3,校验
+serializer.is_valid(raise_exception=True)
+
+#4入库
+serializer.save()
+
+
+
+
+
+
