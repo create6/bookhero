@@ -89,7 +89,7 @@ serializer.is_valid(raise_exception=True)
 
 '''
 6,反序列化，书籍对象，反json
-    create 保存
+    create创建 保存
 '''
 from serializers import BookInfoSerializer
 #1,准备数据
@@ -110,7 +110,36 @@ serializer.is_valid(raise_exception=True)
 serializer.save()
 
 
+'''
+7,反序列化，书籍对象，反json
+    update 更新，修改 保存
+'''
+from serializers import BookInfoSerializer
+from booktest.models import BookInfo
+#1,准备数据
+book_dict={
+    "btitle":"金瓶v2",
+    "bpub_date":"1990-1-1",
+    "bread":200,
+    "bcomment":50
+}
+#1.1  book实例对象，即要修改的对象
+book=BookInfo.objects.get(id=4)
+
+#2,创建序列化器，校验
+serializer=BookInfoSerializer(instance=book,data=book_dict)
+
+#3,校验
+serializer.is_valid(raise_exception=True)
+
+#4入库
+serializer.save()
 
 
 
+'''
+8,自动化序列化器
+'''
+from serializers import BookInfoModelSerializer
 
+BookInfoModelSerializer()

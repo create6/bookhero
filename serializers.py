@@ -7,25 +7,21 @@
 from rest_framework import serializers
 from booktest.models import BookInfo
 
-
-# 1.5 自定义校验方法
-def check_bpub_date(value):
-    print("value=%s"%value)
-    if value.year >= 2000:
-        raise serializers.ValidationError("年份不能大于2000")
-    return value
-
-# 1.6 自定义校验方法  方法名要放入至字段里面
-def check_bocomment(value):
-    print("value=%s"%value)
-    if value < 100:
-        raise serializers.ValidationError("评论量太少")
-    return value
-
-
-
 #1 定义书籍器
 class BookInfoSerializer(serializers.Serializer):
+    # 1.5 自定义校验方法
+    def check_bpub_date(value):
+        print("value=%s" % value)
+        if value.year >= 2000:
+            raise serializers.ValidationError("年份不能大于2000")
+        return value
+    # 1.6 自定义校验方法  方法名要放入至字段里面
+    def check_bocomment(value):
+        print("value=%s" % value)
+        if value < 100:
+            raise serializers.ValidationError("评论量太少")
+        return value
+
     id=serializers.IntegerField(label="id",read_only=True)
     btitle =serializers.CharField(max_length=20,label="名称")
     bpub_date =serializers.DateField(label="发布日期",validators=[check_bpub_date])
@@ -53,19 +49,24 @@ class BookInfoSerializer(serializers.Serializer):
         if bcomment > bread:
             raise serializers.ValidationError("评论量大于阅读量")
         return attrs
-    #1.5 自定义校验方法,放在序列化器上面
-
-    #1.6 实现create 方法  validated_data 校验成功后的数据
+    #自定义校验方法,放在序列化器上面
+    #1.6 改写create 方法  validated_data 校验成功后的数据
     def create(self, validated_data):
         #1 创建book对象，设置属性
         book=BookInfo.objects.create(**validated_data)
         #2返回
         return book
-
-
-
-
-
+    #1.7 改写update方法，instance为外界传入的book对象，validated_data：校验成功后的book_dict数据
+    def update(self, instance, validated_data):
+        #1,更新数据
+        instance.btitle=validated_data["btitle"]
+        instance.bpub_date=validated_data["bpub_date"]
+        instance.bread=validated_data["bread"]
+        instance.bcomment=validated_data["bcomment"]
+        #2,入库
+        instance.save()
+        #3,返回
+        return instance
 
 
 #2 定义英雄器  required=False,allow_null=True允许为空
@@ -86,3 +87,14 @@ class HeroInfoSerializer(serializers.Serializer):
     # hbook=serializers.StringRelatedField(read_only=True)
     #2.4 关联书籍器
     hbook=BookInfoSerializer()
+
+
+
+#3 自动生成序列化器
+class BookInfoModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        #1,参考BookInfo,生成序列化字段
+        model=BookInfo
+
+        #2,指定生成所有的字段
+        fields='__all__'
