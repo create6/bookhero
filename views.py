@@ -141,19 +141,22 @@ serializer.save()
 8,自动化序列化器,测试create,update
 '''
 from serializers import BookInfoModelSerializer
+from booktest.models import BookInfo
 
 #1,准备数据
 book_dict={
-    "btitle":"金瓶v2",
-    "bpub_date":"1990-1-1",
+    "btitle":"完美世界",
+    "bpub_date":"2016-1-1",
     "bread":200,
     "bcomment":150
 }
+#使用BookInfo时需要导入模型
+book=BookInfo.objects.get(id=4)  #加此句为更新,下面也要加入instance=book,
 
 #2,创建序列化器，校验
-serializer=BookInfoModelSerializer(data=book_dict)
+serializer=BookInfoModelSerializer(instance=book,data=book_dict)
 
-#3,校验
+#3,校验，未调用BookInfoSerializer中校验
 serializer.is_valid(raise_exception=True)
 
 #4入库
