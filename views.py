@@ -138,8 +138,24 @@ serializer.save()
 
 
 '''
-8,自动化序列化器
+8,自动化序列化器,测试create,update
 '''
 from serializers import BookInfoModelSerializer
 
-BookInfoModelSerializer()
+#1,准备数据
+book_dict={
+    "btitle":"金瓶v2",
+    "bpub_date":"1990-1-1",
+    "bread":200,
+    "bcomment":150
+}
+
+#2,创建序列化器，校验
+serializer=BookInfoModelSerializer(data=book_dict)
+
+#3,校验
+serializer.is_valid(raise_exception=True)
+
+#4入库
+serializer.save()
+

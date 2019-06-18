@@ -98,3 +98,6 @@ class BookInfoModelSerializer(serializers.ModelSerializer):
 
         #2,指定生成所有的字段
         fields='__all__'
+        # fields=("id","btitle","bpub_date")
+        #3,指定字段序列化时使用（只读）要打开上面其中一条
+        read_only_fields = ["bcomment", "bread", "bpub_date"]
