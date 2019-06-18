@@ -6,7 +6,8 @@ urlpatterns=[
 	url(r'^demo2/$', views.Demo2APIView.as_view()),
 	url(r'^books/$', views.BookInfoAPIView.as_view()),
 	url(r'^books/(?P<pk>\d+)/$', views.BookInfoDetailView.as_view()),
-
+	#二级列表视图
+	url(r'^genericBooks/$', views.BookInfoGenericAPIView.as_view()),
 
 
 ]

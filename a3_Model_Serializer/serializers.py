@@ -5,7 +5,7 @@
 2 和模型类字段名字，类型，字段选项一致
 '''
 from rest_framework import serializers
-from booktest.models import BookInfo
+from booktest.models import BookInfo,HeroInfo
 
 #1 定义书籍器
 class BookInfoSerializer(serializers.Serializer):
@@ -90,7 +90,7 @@ class HeroInfoSerializer(serializers.Serializer):
 
 
 
-#3 自动生成序列化器
+#3 自动生成序列化器 --书籍
 class BookInfoModelSerializer(serializers.ModelSerializer):
     class Meta:
         #1,参考BookInfo,生成序列化字段
@@ -112,3 +112,12 @@ class BookInfoModelSerializer(serializers.ModelSerializer):
         #         "min_value":0
         #     }
         # }
+
+#4自动生成序列化器--英雄
+class HeroInfoModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        #1,生成序列化字段
+        model=HeroInfo
+
+        #2,指定生成所有的字段
+        fields='__all__'

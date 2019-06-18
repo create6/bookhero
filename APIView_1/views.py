@@ -2,10 +2,9 @@ from django import http
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
-from a3_Model_Serializer.serializers import BookInfoSerializer, BookInfoModelSerializer
-from booktest.models import BookInfo
-
+from a3_Model_Serializer.serializers import BookInfoSerializer, BookInfoModelSerializer, HeroInfoModelSerializer
+from booktest.models import BookInfo,HeroInfo
+from rest_framework.generics import GenericAPIView
 
 
 #1,一级视图，APIView之request
@@ -31,7 +30,7 @@ class Demo2APIView(APIView):
 
 #3,一级视图，查看列表视图
 class BookInfoAPIView(APIView):
-	# 查看所有书籍
+	# 查看所有书籍(序列化）
 	def get(self, request):
 		# 1查询所有书籍
 		books = BookInfo.objects.all()
@@ -40,7 +39,7 @@ class BookInfoAPIView(APIView):
 		# 3返回响应
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
-	# 创建单个书籍
+	# 创建单个书籍 create  （反json,反序列化，保存数据，入库）
 	def post(self, request):
 		# 1获取参数
 		dict_data=request.data
@@ -83,3 +82,56 @@ class BookInfoDetailView(APIView):
 		book.delete()
 		#3,response
 		return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+#5,二级视图，GenericAPIView实现列表视图
+class BookInfoGenericAPIView(GenericAPIView):
+	'''
+	GenericAPIView特点:
+	1, GenericAPIView,继承自APIView，
+	2, 为标准列表和详细视图,添加了常用的行为,和属性
+	    属性:
+	        serializer_class    :指定通过序列化器
+	        queryset            :指定通用的数据集
+	        lookup_field        :默认是pk,用来获取单个对象
+
+	    方法(行为):
+	        get_serializer:     :获取序列化器对象
+	        get_queryset:       :获取queryset数据集
+	        get_object          :根据lookup_field,获取单个对象
+
+
+	'''
+	#1,指定通用的序列化器
+	serializer_class = BookInfoModelSerializer
+	# serializer_class = HeroInfoModelSerializer  #英雄
+	#2,指定通用数据集
+	queryset=BookInfo.objects.all()
+	# queryset=HeroInfo.objects.all()  #英雄
+	# 查看所有书籍(序列化）
+	def get(self, request):
+		# 1查询所有书籍
+		# books = self.queryset.all()
+		books=self.get_queryset()
+		#2,获取序列化器
+		serializer = self.serializer_class(instance=books, many=True)
+		# 3返回响应
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
+	# 创建单个书籍 create  （反json,反序列化，保存数据，入库）
+	def post(self, request):
+		# 1获取参数
+		dict_data=request.data
+		# 2获取序列化器
+		# serializer=BookInfoModelSerializer(data=dict_data)   #不是用instance=dict_data
+		serializer = self.serializer_class(data=dict_data)
+		# 3,校验，入库
+		serializer.is_valid(raise_exception=True)
+		serializer.save()
+		#4,返回响应
+		return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+
+
+
+
