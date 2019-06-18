@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^', include('booktest.urls', namespace='books')),
     #炫酷
     url(r'^', include('booktest2.urls', namespace='books2')),
+    #一级
+     url(r'^', include('APIView_1.urls')),
 
 
 ]

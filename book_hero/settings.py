@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'booktest.apps.BooktestConfig',
     # 'booktest2.apps.Bookhero2Config',
-    'rest_framework'
+    'rest_framework',
+    # 'APIView_1.apps.Apiview1Config',
+
 
 ]
 
@@ -53,7 +55,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'book_hero.urls'
+ROOT_URLCONF = 'APIView_1.urls'
 
 TEMPLATES = [
     {
