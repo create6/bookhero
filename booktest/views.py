@@ -6,7 +6,7 @@ from django.views import View
 from a3_Model_Serializer.serializers import BookInfoSerializer
 from .models import BookInfo
 
-
+#1,列表视图
 class SearchBooksView(View):
     #查看所有书籍
     def get(self,request):
@@ -55,7 +55,7 @@ class SearchBooksView(View):
         return http.JsonResponse(book_dict)
 
 
-
+#详情视图
 class SearchSingleBookView(View):
     def get(self,request,pk):
         #1,(参数校验省略)，获取书籍对象
