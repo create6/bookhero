@@ -29,7 +29,7 @@ class Demo2APIView(APIView):
 
 		return Response({"context":"出污泥而不染"},status=status.HTTP_201_CREATED)
 
-#3,一级视图，查看视图列表
+#3,一级视图，查看列表视图
 class BookInfoAPIView(APIView):
 	# 查看所有书籍
 	def get(self, request):
@@ -51,3 +51,35 @@ class BookInfoAPIView(APIView):
 		serializer.save()
 		#4,返回响应
 		return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+#4,一级视图，查看详情视图
+class BookInfoDetailView(APIView):
+	def get(self,request,pk):
+		#1,通过pk获取对象
+		book=BookInfo.objects.get(pk=pk)
+		#2,获取序列化器
+		serializer=BookInfoModelSerializer(instance=book)
+		#3返回响应
+		return Response(serializer.data,status=status.HTTP_200_OK)
+	#修改
+	def put(self,request,pk):
+		#1,获取参数
+		dict_data=request.data
+		book = BookInfo.objects.get(pk=pk)
+		# 2,获取序列化器
+		serializer = BookInfoModelSerializer(instance=book,data=dict_data)
+		#3,校验，入库
+		serializer.is_valid(raise_exception=True)
+		serializer.save()
+
+		#4,返回响应
+		return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+
+	#3 delete
+	def delete(self,request,pk):
+		#1 获取对象
+		book=BookInfo.objects.get(pk=pk)
+		#2,删除书籍
+		book.delete()
+		#3,response
+		return Response(status=status.HTTP_204_NO_CONTENT)
