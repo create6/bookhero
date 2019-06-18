@@ -114,7 +114,8 @@ class BookInfoGenericAPIView(GenericAPIView):
 		# books = self.queryset.all()
 		books=self.get_queryset()
 		#2,获取序列化器
-		serializer = self.serializer_class(instance=books, many=True)
+		# serializer = self.serializer_class(instance=books, many=True)
+		serializer=self.get_serializer(instance=books, many=True)
 		# 3返回响应
 		return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -124,7 +125,8 @@ class BookInfoGenericAPIView(GenericAPIView):
 		dict_data=request.data
 		# 2获取序列化器
 		# serializer=BookInfoModelSerializer(data=dict_data)   #不是用instance=dict_data
-		serializer = self.serializer_class(data=dict_data)
+		# serializer = self.serializer_class(data=dict_data)
+		serializer = self.get_serializer(data=dict_data)
 		# 3,校验，入库
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
