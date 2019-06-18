@@ -2,7 +2,7 @@
 1,序列化器，序列化单个书籍对象
 '''''
 
-from serializers import BookInfoSerializer
+from a3_Model_Serializer.serializers import BookInfoSerializer
 from booktest.models import BookInfo
 #1 获取书对象
 book=BookInfo.objects.get(id=2)   #id=1的书籍已被删除
@@ -16,7 +16,7 @@ print(serializer.data)
 '''
 2,序列化器，序列化全部书籍对象
 '''
-from serializers import BookInfoSerializer
+from a3_Model_Serializer.serializers import BookInfoSerializer
 from booktest.models import BookInfo
 
 #1 获取书对象
@@ -40,7 +40,7 @@ OrderedDict([('id', 7), ('btitle', '水浒传'), ('bpub_date', '1390-12-24'), ('
 '''
 3,序列化器，序列化单个英雄对象
 '''
-from serializers import HeroInfoSerializer
+from a3_Model_Serializer.serializers import HeroInfoSerializer
 from booktest.models import HeroInfo
 
 #1 获取书对象
@@ -53,7 +53,7 @@ print(serializer.data)
 '''
 4,序列化器，序列化全部英雄对象
 '''
-from serializers import HeroInfoSerializer
+from a3_Model_Serializer.serializers import HeroInfoSerializer
 from booktest.models import HeroInfo
 
 #1 获取书对象
@@ -69,7 +69,7 @@ print(serializer.data)
 5,反序列化，书籍对象，反json
 参数
 '''
-from serializers import BookInfoSerializer
+from a3_Model_Serializer.serializers import BookInfoSerializer
 #1,准备数据
 book_dict={
     "btitle":"金瓶v2",
@@ -91,7 +91,7 @@ serializer.is_valid(raise_exception=True)
 6,反序列化，书籍对象，反json
     create创建 保存
 '''
-from serializers import BookInfoSerializer
+from a3_Model_Serializer.serializers import BookInfoSerializer
 #1,准备数据
 book_dict={
     "btitle":"金瓶v2",
@@ -114,7 +114,7 @@ serializer.save()
 7,反序列化，书籍对象，反json
     update 更新，修改 保存
 '''
-from serializers import BookInfoSerializer
+from a3_Model_Serializer.serializers import BookInfoSerializer
 from booktest.models import BookInfo
 #1,准备数据
 book_dict={
@@ -140,7 +140,7 @@ serializer.save()
 '''
 8,自动化序列化器,测试create,update
 '''
-from serializers import BookInfoModelSerializer
+from a3_Model_Serializer.serializers import BookInfoModelSerializer
 from booktest.models import BookInfo
 
 #1,准备数据
