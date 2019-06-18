@@ -148,7 +148,7 @@ book_dict={
     "btitle":"完美世界",
     "bpub_date":"2016-1-1",
     "bread":200,
-    "bcomment":150
+    "bcomment":2
 }
 #使用BookInfo时需要导入模型
 book=BookInfo.objects.get(id=4)  #加此句为更新,下面也要加入instance=book,

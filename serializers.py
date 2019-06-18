@@ -101,3 +101,14 @@ class BookInfoModelSerializer(serializers.ModelSerializer):
         # fields=("id","btitle","bpub_date")
         #3,指定字段序列化时使用（只读）要打开上面其中一条
         # read_only_fields = ["bcomment", "bread", "bpub_date"]
+        #4,给定做添加额外选项约束
+        extra_kwargs={
+            "bread":{
+                "max_value":10000000,
+                "min_value":0
+            },
+            "bcomment":{
+                "max_value":10000000,
+                "min_value":0
+            }
+        }
