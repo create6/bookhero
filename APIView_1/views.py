@@ -45,7 +45,7 @@ class BookInfoAPIView(APIView):
 		# 1获取参数
 		dict_data=request.data
 		# 2获取序列化器
-		serializer=BookInfoModelSerializer(instance=dict_data)
+		serializer=BookInfoModelSerializer(data=dict_data)   #不是用instance=dict_data
 		# 3,校验，入库
 		serializer.is_valid(raise_exception=True)
 		serializer.save()
