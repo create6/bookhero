@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from a3_Model_Serializer.serializers import BookInfoSerializer, BookInfoModelSerializer, HeroInfoModelSerializer
 from booktest.models import BookInfo,HeroInfo
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, ListAPIView,CreateAPIView,RetrieveAPIView,UpdateAPIView,DestroyAPIView
 from rest_framework.mixins import *
 
 
@@ -228,6 +228,48 @@ class MixinGenericBookDetailView(GenericAPIView,RetrieveModelMixin,UpdateModelMi
 		return self.destroy(request)
 
 #---------------三级视图----------------
+#9三级视图，GenericAPIView + Mixin 实现列表视图..ListModelMixin,CreateModelMixin,RetrieveModelMixin
+class BookThirdAPIView(ListAPIView,CreateAPIView):
+	'''
+	bobo
+	GenericAPIView特点:
+	1, GenericAPIView,继承自APIView，
+	2, 为标准列表和详细视图,添加了常用的行为,和属性
+	    属性:
+	        serializer_class    :指定通过序列化器
+	        queryset            :指定通用的数据集
+	        lookup_field        :默认是pk,用来获取单个对象
+
+	    方法(行为):
+	        get_serializer:     :获取序列化器对象
+	        get_queryset:       :获取queryset数据集
+	        get_object          :根据lookup_field,获取单个对象
+
+
+	'''
+	#1,指定通用的序列化器
+	# serializer_class = BookInfoModelSerializer #书籍类
+	serializer_class = HeroInfoModelSerializer  #英雄类
+	#2,指定通用数据集
+	# queryset=BookInfo.objects.all()     #书籍类
+	queryset=HeroInfo.objects.all()   #英雄
+	# 查看所有书籍(序列化）
+
+
+#10 三级 详情视图
+class ThirdDetailView(UpdateAPIView,DestroyAPIView,RetrieveAPIView):
+	# 1,指定通用的序列化器
+	serializer_class = BookInfoModelSerializer
+	# serializer_class = HeroInfoModelSerializer  #英雄
+	# 2,指定通用数据集
+	queryset = BookInfo.objects.all()
+	# queryset=HeroInfo.objects.all()  #英雄
+
+
+
+
+
+
 
 
 

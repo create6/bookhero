@@ -15,6 +15,10 @@ urlpatterns=[
 	url(r'^MiGenericBooks/$', views.BookMixinGenericAPIView.as_view()),
 #二级 迷信-详情视图路由
 	url(r'^MiGenericBooks/(?P<pk>\d+)/$', views.MixinGenericBookDetailView.as_view()),
+	#三级-列表
+	url(r'^ThirdBooks/$', views.BookThirdAPIView.as_view()),
+	#三级-详情
+	url(r'^ThirdBooks/(?P<pk>\d+)/$', views.ThirdDetailView.as_view()),
 
 
 
