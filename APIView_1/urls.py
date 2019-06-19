@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from rest_framework.routers import DefaultRouter,SimpleRouter
 from . import views
 
 urlpatterns=[
@@ -35,5 +36,24 @@ urlpatterns=[
 	url(r'^spviewset/(?P<pk>\d+)/$', views.HeroModelViewSet.as_view({"put": "update_hero"})),
 
 
-
 ]
+
+#1,创建路由对象
+router=DefaultRouter()
+#2,注册视图集
+router.register(r'bkrouter',views.HeroModelViewSet,base_name="haha")
+#3,添加到urlpatterns
+urlpatterns +=router.urls
+print(router.urls)
+
+
+'''
+[
+<RegexURLPattern haha-list ^bkrouter/$>,
+<RegexURLPattern haha-list ^bkrouter\.(?P<format>[a-z0-9]+)/?$>,
+<RegexURLPattern haha-detail ^bkrouter/(?P<pk>[^/.]+)/$>,
+<RegexURLPattern haha-detail ^bkrouter/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$>,
+<RegexURLPattern api-root ^$>,
+<RegexURLPattern api-root ^\.(?P<format>[a-z0-9]+)/?$>
+]
+'''
