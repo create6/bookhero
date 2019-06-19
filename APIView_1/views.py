@@ -133,7 +133,46 @@ class BookInfoGenericAPIView(GenericAPIView):
 		#4,返回响应
 		return Response(serializer.data,status=status.HTTP_201_CREATED)
 
+#二级详情视图
+class GenericBookDetailAPIView(GenericAPIView):
+	# 1,指定通用的序列化器
+	serializer_class = BookInfoModelSerializer
+	# serializer_class = HeroInfoModelSerializer  #英雄
+	# 2,指定通用数据集
+	queryset = BookInfo.objects.all()
+	# queryset=HeroInfo.objects.all()  #英雄
+	# 查看单个书籍(序列化）
+	def get(self,request,pk):
+		# 1 获取单个对象
+		book = self.get_object()
+		# book = self.get_queryset()
+		# 2,获取序列化器
+		# serializer = self.serializer_class(instance=books, many=True)
+		serializer = self.get_serializer(instance=book)
+		# 3返回响应
+		return Response(serializer.data, status=status.HTTP_200_OK)
+	#修改单个对象
+	def put(self,request,pk):
+		# 1,获取参数
+		dict_data = request.data
+		# book = BookInfo.objects.get(pk=pk)
+		book = self.get_object()  #获取对象
+		# 2,获取序列化器
+		serializer = BookInfoModelSerializer(instance=book, data=dict_data)
+		# 3,校验，入库
+		serializer.is_valid(raise_exception=True)
+		serializer.save()
+		# 4,返回响应
+		return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
 
+	# 3 delete
+	def delete(self, request, pk):
+		# 1 获取对象
+		book = self.get_object()
+		# 2,删除书籍
+		book.delete()
+		# 3,response
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
