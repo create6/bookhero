@@ -20,6 +20,19 @@ urlpatterns=[
 	#三级-详情
 	url(r'^ThirdBooks/(?P<pk>\d+)/$', views.ThirdDetailView.as_view()),
 
+	#视图集1 viewset
+	url(r'^viewset/$',views.BookViewSet.as_view({"get":"list"})),
+	url(r'^viewset/(?P<pk>\d+)/$',views.BookViewSet.as_view({"get":"retrieve"})),
+	# 视图集2 ReadOnly
+	url(r'^roviewset/$', views.BookROViewSet.as_view({"get": "list"})),
+	url(r'^roviewset/(?P<pk>\d+)/$', views.BookROViewSet.as_view({"get": "retrieve"})),
+	# 视图集3 ModelView
+	url(r'^mdviewset/$', views.HeroModelViewSet.as_view({"get": "list","post":"create"})),
+	url(r'^mdviewset/(?P<pk>\d+)/$', views.HeroModelViewSet.as_view({"get": "retrieve","put":"update","delete":"destroy"})),
+	#额外 ,get--> special_hero
+	url(r'^spviewset/$', views.HeroModelViewSet.as_view({"get": "special_hero"})),
+	#额外功能，partial
+	url(r'^spviewset/(?P<pk>\d+)/$', views.HeroModelViewSet.as_view({"put": "update_hero"})),
 
 
 
